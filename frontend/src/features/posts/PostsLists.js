@@ -1,9 +1,4 @@
-import { useMemo } from 'react'
-import { Spinner } from '../../components/Spinner'
-import { Link } from 'react-router-dom'
-import { PostAuthor } from './PostAuthor'
-import { TimeAgo } from './TimeAgo'
-import { ReactionButtons } from './ReactionButtons'
+
 import { useSelector } from 'react-redux'
 import classnames from 'classnames'
 
