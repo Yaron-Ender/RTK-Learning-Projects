@@ -2,16 +2,16 @@ import mongoose from "mongoose";
 
 const blogsSchema = mongoose.Schema({
 title:{
-type:string,
+type:String,
 require:true
 },
 aouther:{
-type:mongoose.schema.Types.ObjectId,
-ref:'User',
-require:true
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    ref: "User",
 },
 content:{
-type:string,
+type:String,
 require:true
 }
 },

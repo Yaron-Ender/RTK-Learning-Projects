@@ -10,13 +10,21 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 // import {UsersList} from './features/users/UsersList'
 // import {NotificationsList} from './features/notifications/NotificationsList'
 import Home from './layout/Home';
+import PostsLists from './features/posts/PostsLists';
+import { AddPostForm } from './features/posts/AddPostForm';
 
 function App() {
 
   const router = createBrowserRouter([
   {
     path:'/',
-    element:<Home />
+    element:<Home />,
+    children:[
+      {
+        index:true,
+        element:<PostsLists/>
+      },
+    ]
   }
   ])
   return (
