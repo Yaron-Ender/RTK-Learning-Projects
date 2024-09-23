@@ -1,3 +1,4 @@
 Blog post<br />
-![](./blogPostsImg.png) 
-- using old version of react router dom
+![](./blogpostimage.png) 
+- basic usage of RTK without using DB or external api
+- basic flow of createSlice,store,useSelector and dispatch
