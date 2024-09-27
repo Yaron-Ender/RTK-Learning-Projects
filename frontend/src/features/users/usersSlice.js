@@ -1,31 +1,44 @@
 import {createSlice, createAsyncThunk, createEntityAdapter, createSelector} from '@reduxjs/toolkit'
-import { apiSlice } from '../../api/apiSlice'
 
-const usersAdapter = createEntityAdapter()
+const initialState = [
+    {id:0,name:'Moshe lastname'},
+    {id:1,name:'Sasha lastname'},
+    {id:2,name:'David lastname'}
+]
 
-
-export const extendedApiSlice = apiSlice.injectEndpoints({
-    endpoints: builder => ({
-        getUsers: builder.query({
-            query: () => '/users'
-        })
-    })
+const usesrSlice = createSlice({
+name:'users',
+initialState,
+reducers:{
+}
 })
 
-export const {useGetUsersQuery} = extendedApiSlice
+export default usesrSlice.reducer
+// const usersAdapter = createEntityAdapter()
 
-export const selectUsersResult = apiSlice.endpoints.getUsers.select()
 
-const emptyUsers = []
+// export const extendedApiSlice = apiSlice.injectEndpoints({
+//     endpoints: builder => ({
+//         getUsers: builder.query({
+//             query: () => '/users'
+//         })
+//     })
+// })
 
-export const selectAllUsers = createSelector(
-    selectUsersResult,
-    usersResult => usersResult?.data ?? emptyUsers
-)
+// export const {useGetUsersQuery} = extendedApiSlice
 
-export const selectUserById = createSelector(
-    selectAllUsers,
-    (state, userId) => userId,
-    (users, userId) => users.find(user => user.id === userId)
-)
+// export const selectUsersResult = apiSlice.endpoints.getUsers.select()
+
+// const emptyUsers = []
+
+// export const selectAllUsers = createSelector(
+//     selectUsersResult,
+//     usersResult => usersResult?.data ?? emptyUsers
+// )
+
+// export const selectUserById = createSelector(
+//     selectAllUsers,
+//     (state, userId) => userId,
+//     (users, userId) => users.find(user => user.id === userId)
+// )
 

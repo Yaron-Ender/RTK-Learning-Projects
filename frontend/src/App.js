@@ -12,7 +12,8 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from './layout/Home';
 import PostsLists from './features/posts/PostsLists';
 import { AddPostForm } from './features/posts/AddPostForm';
-
+import { SinglePostPage } from './features/posts/SinglePostPage';  
+import { EditPostForm } from './features/posts/EditPostForm';
 function App() {
 
   const router = createBrowserRouter([
@@ -24,6 +25,14 @@ function App() {
         index:true,
         element:<PostsLists/>
       },
+      {
+        path:'/posts/:postId',
+        element:<SinglePostPage />
+      },
+      {
+        path:'/editPost/:postId',
+        element:<EditPostForm />
+      }
     ]
   }
   ])
@@ -33,13 +42,7 @@ function App() {
     </div>
   )
 
-  //         <Route exact path='/posts/:postId' component={SinglePostPage} />
-  //         <Route exact path='/editPost/:postId' component={EditPostForm} />
-  //         <Route exact path='/users' component={UsersList} />
-  //         <Route exact path='/users/:userId' component={UserPage} />
-  //         <Route exact path='/Notifications' component={NotificationsList} />
-  //         <Redirect to="/" />
-  //       </Switch>
+  
 
  
 }

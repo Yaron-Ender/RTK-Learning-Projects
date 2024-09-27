@@ -1,43 +1,34 @@
 import React, { useState } from 'react'
-// import { useSelector } from 'react-redux'
-import { useDispatch } from 'react-redux'
+import { useDispatch,useSelector } from 'react-redux'
 import { postAdded } from './postsSlice'
-import { nanoid } from '@reduxjs/toolkit'
 // import {selectAllUsers, selectUserById} from '../users/usersSlice'
 // import { useAddNewPostMutation } from '../../api/apiSlice'
 export const AddPostForm = () => {
-    const dispatch = useDispatch()
     const [title, setTitle] = useState('')
     const [content, setContent] = useState('')
     const [userId, setUserId] = useState('')
     const [addRequestStatus, setAddRequestStatus] = useState('idle')
 
+    const dispatch = useDispatch()
+    const users = useSelector(state=>state.users)
+
     // const [addNewPost, {isLoading}] = useAddNewPostMutation()
     // const users = useSelector(selectAllUsers)
 
     const onTitleChanged = e => setTitle(e.target.value)
-    const onContentChanged = e => setContent(e.target.value)
+    const onContentChanged = e =>{
+        setContent(e.target.value)
+    }
     const onAuthorChanged = e => setUserId(e.target.value)
-
-    /*
-    write a function onSavePostClicked that checks whether the
-    title and content are both true and if so dispatches a new post
-    with a random unique id and resets the state of the title and
-    content
-    */
 
     const canSave = [title, content].every(Boolean) 
     // const canSave = [title, content, userId].every(Boolean) && !isLoading
 
-    const onSavePostClicked = async () => {
+    const onSavePostClicked = () => {
         if(canSave) {
             try {
                 setAddRequestStatus('pending')
-              await dispatch(postAdded({
-                 title,
-                 content,
-                  id:nanoid(),
-                }))
+                dispatch(postAdded(title,content,userId))
                 // await addNewPost({title, content, user: userId}).unwrap()
                 setTitle('')
                 setContent('')   
@@ -48,11 +39,11 @@ export const AddPostForm = () => {
         }
     }
 
-    // const userOptions = users?.map(user => (
-    //     <option key={user.id} value={user.id}>
-    //         {user.name}
-    //     </option>
-    // ))
+    const userOptions = users?.map(user => (
+        <option key={user.id} value={user.id}>
+            {user.name}
+        </option>
+    ))
 
     return (
         <section>
@@ -74,11 +65,12 @@ export const AddPostForm = () => {
                     onChange={onContentChanged}
                 />
                 <label htmlFor='postAuthor'>Author:</label>
-                {/* <select id='postAuthor' value={userId}
+                <select id='postAuthor' value={userId}
                 onChange={onAuthorChanged}
                 ><option value=''></option>
                 {userOptions}
-                </select> */}
+                </select>
+            
                 <button type='button' onClick={onSavePostClicked} disabled={!canSave}>Save Post</button>
             </form>
         </section>

@@ -1,28 +1,32 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useHistory } from 'react-router-dom'
+import { Link,useParams,useNavigate } from 'react-router-dom'
 import { useGetPostQuery, useEditPostMutation } from '../../api/apiSlice'
+import { postUpdated } from './postsSlice'
 
-export const EditPostForm = ({ match }) => {
+export const EditPostForm = () => {
     
-    const { postId } = match.params
+    const { postId } = useParams()
+    const navigation = useNavigate()
+    // const {data: post} = useGetPostQuery(postId)
+    // const [updatePost, {isLoading}] = useEditPostMutation()
+    const post = useSelector(state=>state.posts.find(post=>post.id==postId))
 
-    const {data: post} = useGetPostQuery(postId)
-    const [updatePost, {isLoading}] = useEditPostMutation()
 
     const [title, setTitle] = useState(post.title)
     const [content, setContent] = useState(post.content)
 
     const dispatch = useDispatch()
-    const history = useHistory()
+  
 
     const onTitleChanged = e => setTitle(e.target.value)
     const onContentChanged = e => setContent(e.target.value)
 
     const onSavePostClicked = async () => {
         if (title && content) {
-            await updatePost({id: postId, title, content})
-            history.push(`/posts/${postId}`)
+        dispatch(postUpdated({id:postId, title, content}))
+            // await updatePost({id: postId, title, content})
+            navigation(`/posts/${postId}`)
         }
     }
 
