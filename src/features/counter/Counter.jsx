@@ -27,6 +27,7 @@ const count = useSelector(selectCount)//access to the state -> function that lea
         onChange={(e)=>{setIncrementAmount(e.target.value)}}
         />
         <button 
+        // incrementValue is the payload
         onClick={()=>{dispatch(incrementByAmount(incrementValue))}}
         >Add Amount</button>
         <button 
