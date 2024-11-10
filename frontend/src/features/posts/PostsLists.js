@@ -6,7 +6,6 @@ import { PostAuthor } from './PostAuthor'
 import { TimeAgo } from './TimeAgo'
 import { ReactionButtons } from './ReactionButtons'
 import { useSelector } from 'react-redux'
-import classnames from 'classnames'
 
 function PostsLists() {
  const posts= useSelector(state=>state.posts)

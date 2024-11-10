@@ -1,5 +1,4 @@
-import {createSlice, nanoid, createAsyncThunk, createSelector, 
-    createEntityAdapter} from '@reduxjs/toolkit'
+import {createSlice, nanoid} from '@reduxjs/toolkit'
 import { sub } from 'date-fns'
 
 
@@ -15,7 +14,7 @@ const postsSlice = createSlice({
         reactionAdded(state,action) {
             const {postId, reactionName} = action.payload
             const existingPost = state.find(post=>post.id===postId)
-            if(existingPost) {
+             if(existingPost) {
             if(!existingPost.reactions[reactionName]){
                 existingPost.reactions[reactionName]=0
             }
@@ -60,37 +59,11 @@ const postsSlice = createSlice({
             }
         }
     },
-    // extraReducers(builder) {
-    //     builder
-    //     .addCase(fetchPosts.pending, (state, action) => {
-    //         state.status = 'loading'
-    //     })
-    //     .addCase(fetchPosts.fulfilled, (state, action) => {
-    //         state.status = 'succeeded'
-    //         postsAdapter.upsertMany(state, action.payload)
-    //     })
-    //     .addCase(fetchPosts.rejected, (state, action) => {
-    //         state.status = 'failed'
-    //         state.error = action.error.message
-    //     })
-    //     .addCase(addNewPost.fulfilled, postsAdapter.addOne)
-    // }
+
 })
 
-console.log('Initial state:', initialState);
 
 export const {postAdded, postUpdated, reactionAdded} = postsSlice.actions
-
-// export const {
-//     selectAll: selectAllPosts,
-//     selectById: selectPostsById,
-//     selectIds: selectPostIds
-// } = postsAdapter.getSelectors(state => state.posts)
-
-// export const selectPostsByUser = createSelector(
-//     [selectAllPosts, (state, userId) => userId],
-//     (posts, userId) => posts.filter(post => post.user === userId)
-// )
 
 export default postsSlice.reducer;
 
