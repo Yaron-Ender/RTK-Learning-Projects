@@ -11,9 +11,7 @@ export const AddPostForm = () => {
 
     const dispatch = useDispatch()
     const users = useSelector(state=>state.users)
-
     // const [addNewPost, {isLoading}] = useAddNewPostMutation()
-    // const users = useSelector(selectAllUsers)
 
     const onTitleChanged = e => setTitle(e.target.value)
     const onContentChanged = e =>{
