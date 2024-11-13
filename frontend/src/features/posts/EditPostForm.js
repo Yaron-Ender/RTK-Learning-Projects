@@ -2,15 +2,15 @@ import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link,useParams,useNavigate } from 'react-router-dom'
 import { useGetPostQuery, useEditPostMutation } from '../../api/apiSlice'
-import { postUpdated } from './postsSlice'
-
+import { postUpdated,selectPostsById } from './postsSlice'
 export const EditPostForm = () => {
     
     const { postId } = useParams()
     const navigation = useNavigate()
     // const {data: post} = useGetPostQuery(postId)
     // const [updatePost, {isLoading}] = useEditPostMutation()
-    const post = useSelector(state=>state.posts.find(post=>post.id==postId))
+
+    const post = useSelector(state=> selectPostsById(state,postId))
 
 
     const [title, setTitle] = useState(post.title)

@@ -7,10 +7,10 @@ import { useSelector } from 'react-redux'
 import { PostAuthor } from './PostAuthor'
 import { TimeAgo } from './TimeAgo'
 import { ReactionButtons } from './ReactionButtons'
-
+import { selectPostsById } from './postsSlice'
 export const SinglePostPage = () => {
   const { postId } = useParams()
-  const post = useSelector(state=>state.posts.find(post=>post.id==postId))
+  const post = useSelector(state=> selectPostsById(state,postId))
   // const { data: post, isFetching, isSuccess } = useGetPostQuery(postId)
 
   let content

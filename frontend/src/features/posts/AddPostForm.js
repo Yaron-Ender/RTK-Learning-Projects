@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useDispatch,useSelector } from 'react-redux'
-import { postAdded } from './postsSlice'
+import { addNewPost } from './postsSlice'
+import { Spinner } from '../../components/Spinner'
 // import {selectAllUsers, selectUserById} from '../users/usersSlice'
 // import { useAddNewPostMutation } from '../../api/apiSlice'
 export const AddPostForm = () => {
@@ -11,7 +12,15 @@ export const AddPostForm = () => {
 
     const dispatch = useDispatch()
     const users = useSelector(state=>state.users)
-
+    const postStatus = useSelector(state=>state.posts.status)
+    useEffect(()=>{
+        if(postStatus==='loading'){
+            setAddRequestStatus('loading')
+        }else if(postStatus==='succeeded'){
+            console.log(postStatus)
+            setAddRequestStatus('idle')
+        }
+    },[postStatus])
     // const [addNewPost, {isLoading}] = useAddNewPostMutation()
     // const users = useSelector(selectAllUsers)
 
@@ -21,22 +30,24 @@ export const AddPostForm = () => {
     }
     const onAuthorChanged = e => setUserId(e.target.value)
 
-    const canSave = [title, content].every(Boolean) 
+    const canSave = [title, content].every(Boolean)&&addRequestStatus==='idle'
     // const canSave = [title, content, userId].every(Boolean) && !isLoading
 
-    const onSavePostClicked = () => {
-        if(canSave) {
-            try {
-                setAddRequestStatus('pending')
-                dispatch(postAdded(title,content,userId))
-                // await addNewPost({title, content, user: userId}).unwrap()
-                setTitle('')
-                setContent('')   
-                setUserId('')         
-            }   catch (err) {
-                console.error('failed to save the post', err)
-            }   
+    const onSavePostClicked =async() => {
+    if(canSave) {
+        try {
+            setAddRequestStatus('pending')
+            // dispatch(postAdded(title,content,userId))
+            await dispatch(addNewPost({title, content, user: userId})).unwrap()
+            setTitle('')
+            setContent('')   
+            setUserId('')         
+        }   catch (err) {
+            console.error('failed to save the post', err)
+        } finally {
+            setAddRequestStatus('idle')
         }
+    }
     }
 
     const userOptions = users?.map(user => (
@@ -46,33 +57,37 @@ export const AddPostForm = () => {
     ))
 
     return (
-        <section>
-            <h2>Add A New Post</h2>
-            <form>
-                <label htmlFor='postTitle'>Post Title:</label>
-                <input
-                    type='text'
-                    id='postTitle'
-                    name='postTitle'
-                    value={title}
-                    onChange={onTitleChanged}
-                />
-                <label htmlFor='postContent'>Content:</label>
-                <textarea
-                    id='postContent'
-                    name='postContent'
-                    value={content}
-                    onChange={onContentChanged}
-                />
-                <label htmlFor='postAuthor'>Author:</label>
-                <select id='postAuthor' value={userId}
-                onChange={onAuthorChanged}
-                ><option value=''></option>
-                {userOptions}
-                </select>
-            
-                <button type='button' onClick={onSavePostClicked} disabled={!canSave}>Save Post</button>
-            </form>
-        </section>
+    <>
+    {addRequestStatus==='loading'&&<Spinner text='Saving...'/>}
+    {(addRequestStatus==='succeeded'||addRequestStatus==='idle')&&
+    <section>
+        <h2>Add A New Post</h2>
+        <form>
+            <label htmlFor='postTitle'>Post Title:</label>
+            <input
+                type='text'
+                id='postTitle'
+                name='postTitle'
+                value={title}
+                onChange={onTitleChanged}
+            />
+            <label htmlFor='postContent'>Content:</label>
+            <textarea
+                id='postContent'
+                name='postContent'
+                value={content}
+                onChange={onContentChanged}
+            />
+            <label htmlFor='postAuthor'>Author:</label>
+            <select id='postAuthor' value={userId}
+            onChange={onAuthorChanged}
+            ><option value=''></option>
+            {userOptions}
+            </select>
+        
+            <button type='button' onClick={onSavePostClicked} disabled={!canSave}>Save Post</button>
+        </form>
+    </section>}
+    </>
     )
 }
