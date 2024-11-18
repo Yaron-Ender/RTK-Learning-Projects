@@ -17,6 +17,8 @@ extraReducers(builder){
 })
 
 export default usesrSlice.reducer
+export const selectAllUsers = state => state.users
+export const selectUserById = (state,userId) => state.users.find(user=>user.id===Number(userId))
 // const usersAdapter = createEntityAdapter()
 
 
