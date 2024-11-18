@@ -6,11 +6,13 @@ import {selectAllPosts} from '../posts/postsSlice'
 
 export const UserPage = () => {
   const {userId} = useParams()
-     const user = useSelector(state => selectUserById(state, userId))
+  const user = useSelector(state => selectUserById(state, userId))
+
 
   const postsForUser = useSelector(state=>{
     const allPosts = selectAllPosts(state)
-    return allPosts.filter(post=>post.user===Number(userId))
+    console.log(allPosts, 'allPosts')
+    return allPosts.filter(post=>post.userId===Number(userId))
   })
     const postTitles = postsForUser.map(post => (
     <li key={post.id}>

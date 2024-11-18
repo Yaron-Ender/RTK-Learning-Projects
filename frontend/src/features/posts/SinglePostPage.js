@@ -16,7 +16,7 @@ export const SinglePostPage = () => {
     content=(
       <article className='post'>
       <h3>{post.title}</h3>
-      <PostAuthor userId={post.id} />
+      <PostAuthor userId={post.userId} />
       <TimeAgo timestamp={post.date}/>
       <p>{post.content}</p>
       <Link to={`/editPost/${post.id}`} className="button">
