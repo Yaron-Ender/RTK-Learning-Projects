@@ -17,7 +17,6 @@ export const AddPostForm = () => {
         if(postStatus==='loading'){
             setAddRequestStatus('loading')
         }else if(postStatus==='succeeded'){
-            console.log(postStatus)
             setAddRequestStatus('idle')
         }
     },[postStatus])

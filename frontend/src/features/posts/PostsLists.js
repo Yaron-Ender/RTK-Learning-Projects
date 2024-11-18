@@ -29,7 +29,7 @@ return (
 
 function PostsLists() {
 
- const posts= useSelector(selectAllPosts)
+const posts= useSelector(selectAllPosts)
 const dispatch = useDispatch()
 
 const postStatus = useSelector(state=>state.posts.status)
