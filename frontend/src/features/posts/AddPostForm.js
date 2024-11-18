@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useDispatch,useSelector } from 'react-redux'
 import { addNewPost } from './postsSlice'
 import { Spinner } from '../../components/Spinner'
-// import {selectAllUsers, selectUserById} from '../users/usersSlice'
-// import { useAddNewPostMutation } from '../../api/apiSlice'
+
 export const AddPostForm = () => {
     const [title, setTitle] = useState('')
     const [content, setContent] = useState('')
@@ -20,8 +19,6 @@ export const AddPostForm = () => {
             setAddRequestStatus('idle')
         }
     },[postStatus])
-    // const [addNewPost, {isLoading}] = useAddNewPostMutation()
-    // const users = useSelector(selectAllUsers)
 
     const onTitleChanged = e => setTitle(e.target.value)
     const onContentChanged = e =>{

@@ -1,4 +1,4 @@
-import {createSlice, nanoid, createAsyncThunk, createSelector, createEntityAdapter} from '@reduxjs/toolkit'
+import {createSlice, nanoid, createAsyncThunk} from '@reduxjs/toolkit'
 import axios from 'axios'
 
 const initialState ={
@@ -127,36 +127,10 @@ state.status = 'succeeded'
 state.posts.push(newPost)
 })
 }
-    // extraReducers(builder) {
-    //     builder
-    //     .addCase(fetchPosts.pending, (state, action) => {
-    //         state.status = 'loading'
-    //     })
-    //     .addCase(fetchPosts.fulfilled, (state, action) => {
-    //         state.status = 'succeeded'
-    //         postsAdapter.upsertMany(state, action.payload)
-    //     })
-    //     .addCase(fetchPosts.rejected, (state, action) => {
-    //         state.status = 'failed'
-    //         state.error = action.error.message
-    //     })
-    //     .addCase(addNewPost.fulfilled, postsAdapter.addOne)
-    // }
+
 })
 
-
 export const {postAdded, postUpdated, reactionAdded} = postsSlice.actions
-
-// export const {
-//     selectAll: selectAllPosts,
-//     selectById: selectPostsById,
-//     selectIds: selectPostIds
-// } = postsAdapter.getSelectors(state => state.posts)
-
-// export const selectPostsByUser = createSelector(
-//     [selectAllPosts, (state, userId) => userId],
-//     (posts, userId) => posts.filter(post => post.user === userId)
-// )
 
 export default postsSlice.reducer;
 export const selectAllPosts = state => state.posts.posts;
