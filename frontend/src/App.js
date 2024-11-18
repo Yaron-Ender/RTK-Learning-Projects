@@ -1,7 +1,5 @@
 import React, { useEffect } from 'react'
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-
-
 // import {PostsList} from './features/posts/PostsLists'
 // import {AddPostForm} from './features/posts/AddPostForm'
 // import {SinglePostPage} from './features/posts/SinglePostPage'

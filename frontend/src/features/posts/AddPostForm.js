@@ -37,7 +37,7 @@ export const AddPostForm = () => {
         try {
             setAddRequestStatus('pending')
             // dispatch(postAdded(title,content,userId))
-            await dispatch(addNewPost({title, content, user: userId})).unwrap()
+            await dispatch(addNewPost({title, content, userId: Number(userId)})).unwrap()
             setTitle('')
             setContent('')   
             setUserId('')         
