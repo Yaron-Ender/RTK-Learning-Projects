@@ -7,7 +7,7 @@ import { SinglePostPage } from './features/posts/SinglePostPage';
 import { EditPostForm } from './features/posts/EditPostForm';
 import { UserPage } from './features/users/UserPage';
 import { UsersList } from './features/users/UsersList';
-
+import { NotificationsList } from './features/notifications/NotificationsList';
 import { fetchUsers } from './features/users/usersSlice';
 import { useDispatch } from 'react-redux';
 
@@ -43,7 +43,11 @@ useEffect(()=>{
       {
         path:'/users/:userId',
         element:<UserPage />
-      }
+      },
+      {
+        path:'/notifications',
+        element:<NotificationsList />
+      },
     ]
   }
   ])
