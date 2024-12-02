@@ -1,20 +1,19 @@
-import React, {useMemo,useEffect} from 'react'
+
 import { useSelector } from 'react-redux'
 import {Link,useParams} from 'react-router-dom'
-import {selectUserById,selectAllUsers} from './usersSlice'
+import {selectUserById} from './usersSlice'
 import {selectAllPosts} from '../posts/postsSlice'
-import { useGetPostsQuery } from '../../api/apiSlice'
-import { createSelector } from '@reduxjs/toolkit'
 
 export const UserPage = () => {
   const {userId} = useParams()
-     const user = useSelector(state => selectUserById(state, userId))
+  const user = useSelector(state => selectUserById(state, userId))
+
 
   const postsForUser = useSelector(state=>{
     const allPosts = selectAllPosts(state)
+    console.log(allPosts, 'allPosts')
     return allPosts.filter(post=>post.userId===Number(userId))
   })
-
     const postTitles = postsForUser.map(post => (
     <li key={post.id}>
     <Link to={`/posts/${post.id}`}>{post.title}</Link>

@@ -26,10 +26,9 @@ return (
 )
 }
 
-
 function PostsLists() {
 
- const posts= useSelector(selectAllPosts)
+const posts= useSelector(selectAllPosts)
 const dispatch = useDispatch()
 
 const postStatus = useSelector(state=>state.posts.status)
@@ -60,52 +59,4 @@ if(postStatus==='loading'){
     </section>
   )
 }
-
 export default PostsLists
-
-
-// PostExcerpts = React.memo(PostExcerpts)
-
-// export const PostsList = () => {
-
-//     const {
-//         data: posts = [],
-//         isLoading,
-//         isFetching,
-//         isSuccess,
-//         isError,
-//         error,
-//         refetch
-//     } = useGetPostsQuery()
-
-//     const sortedPosts = useMemo(() => {
-//         const sortedPosts = posts.slice()
-//         sortedPosts.sort((a, b) => b.date.localeCompare(a.date))
-//         return sortedPosts
-//     })
-
-//     let content
-
-//     if (isLoading) {
-//         content = <Spinner text="Loading..." />
-//     } else if (isSuccess) {
-//         const renderedPosts = sortedPosts.map(post => (
-//             <PostExcerpts key={post.id} post={post} />
-//         ))
-//         const containerClassname = classnames('post-container',
-//             {
-//                 disabled: isFetching
-//             })
-//         content = <div className={containerClassname}>{renderedPosts}</div>
-//     } else if (isError) {
-//         content = <div>{error.toString()}</div>
-//     }
-
-//     return (
-//         <section className='posts-list'>
-//             <h2>Posts</h2>
-//             <button onClick={refetch}>Refetch Posts</button>
-//             {content}
-//         </section>
-//     )
-// }

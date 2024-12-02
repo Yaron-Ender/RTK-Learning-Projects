@@ -1,6 +1,4 @@
-import {createSlice, nanoid, createAsyncThunk, createSelector, 
-    createEntityAdapter} from '@reduxjs/toolkit'
-    import { client } from '../../api/client'
+import {createSlice, nanoid, createAsyncThunk} from '@reduxjs/toolkit'
 import axios from 'axios'
 
 const initialState ={
@@ -77,87 +75,62 @@ const postsSlice = createSlice({
     },
     extraReducers(builder) {
         builder
-        .addCase(fetchPosts.fulfilled, (state, action) => {
-        // only for the first time when the posts are fetched from the API
-        if(state.posts.length===0){
-       const newPosts = action.payload.slice(0,5).map(post=>{
-        const newPost = {...post}
-             newPost.content = post.body
-             newPost.user = post.userId
-             newPost.id = nanoid()
-                newPost.date = new Date().toISOString()
-                newPost.reactions = {   
-                thumbsUp: 0,
-                raisingHands: 0,
-                heart: 0,
-                rocket: 0,
-                eyes: 0
-            }
-            delete post.body
-            return newPost
-        })    
-        state.posts = newPosts
-        state.status = 'succeeded'
-        }else{
-        state.posts = state.posts.concat(action.payload)
-        }
-        })
-        .addCase(fetchPosts.pending, (state, action) => {
-                state.status = 'loading'
-            })
-            .addCase(fetchPosts.rejected, (state, action) => {
-                state.status = 'failed'
-                state.error = action.error.message
-            })
-            .addCase(addNewPost.pending, (state) => {
-                state.status = 'loading'
-            })
-            .addCase(addNewPost.fulfilled, (state, action) => {
-            const newPost = {...action.payload,
-                id: nanoid(),   
-                date: new Date().toISOString(),
-                reactions: {
-                    thumbsUp: 0,
-                    raisingHands: 0,
-                    heart: 0,
-                    rocket: 0,
-                    eyes: 0
-                }
-            }
-            state.status = 'succeeded'
-            state.posts.push(newPost)
-            })
-    }
-    // extraReducers(builder) {
-    //     builder
-    //     .addCase(fetchPosts.pending, (state, action) => {
-    //         state.status = 'loading'
-    //     })
-    //     .addCase(fetchPosts.fulfilled, (state, action) => {
-    //         state.status = 'succeeded'
-    //         postsAdapter.upsertMany(state, action.payload)
-    //     })
-    //     .addCase(fetchPosts.rejected, (state, action) => {
-    //         state.status = 'failed'
-    //         state.error = action.error.message
-    //     })
-    //     .addCase(addNewPost.fulfilled, postsAdapter.addOne)
-    // }
+.addCase(fetchPosts.fulfilled, (state, action) => {
+// only for the first time when the posts are fetched from the API
+if(state.posts.length===0){
+const newPosts = action.payload.slice(0,5).map(post=>{
+const newPost = {...post}
+    newPost.content = post.body
+    newPost.user = post.userId
+    newPost.id = nanoid()
+    newPost.date = new Date().toISOString()
+    newPost.reactions = {   
+    thumbsUp: 0,
+    raisingHands: 0,
+    heart: 0,
+    rocket: 0,
+    eyes: 0
+}
+//the body property is come from the placeholder API and i changed it with content property
+delete post.body
+return newPost
+})    
+state.posts = newPosts
+state.status = 'succeeded'
+}else{
+state.posts = state.posts.concat(action.payload)
+}
+})
+.addCase(fetchPosts.pending, (state, action) => {
+state.status = 'loading'
+})
+.addCase(fetchPosts.rejected, (state, action) => {
+state.status = 'failed'
+state.error = action.error.message
+})
+.addCase(addNewPost.pending, (state) => {
+state.status = 'loading'
+})
+.addCase(addNewPost.fulfilled, (state, action) => {
+const newPost = {...action.payload,
+id: nanoid(),   
+date: new Date().toISOString(),
+reactions: {
+thumbsUp: 0,
+raisingHands: 0,
+heart: 0,
+rocket: 0,
+eyes: 0
+}
+}
+state.status = 'succeeded'
+state.posts.push(newPost)
+})
+}
+
 })
 
-
 export const {postAdded, postUpdated, reactionAdded} = postsSlice.actions
-
-// export const {
-//     selectAll: selectAllPosts,
-//     selectById: selectPostsById,
-//     selectIds: selectPostIds
-// } = postsAdapter.getSelectors(state => state.posts)
-
-// export const selectPostsByUser = createSelector(
-//     [selectAllPosts, (state, userId) => userId],
-//     (posts, userId) => posts.filter(post => post.user === userId)
-// )
 
 export default postsSlice.reducer;
 export const selectAllPosts = state => state.posts.posts;
