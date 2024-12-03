@@ -6,7 +6,6 @@ import axios from 'axios'
 // retrive the notification and
 export const fetchNotifications = createAsyncThunk('notifications/fetchNotifications',async (_,{getState}) => {
   let allNotifications = selectAllNotifications(getState())
-  console.log(allNotifications)
   const [latestNotification] = allNotifications
   const latestTimestamp = latestNotification ? latestNotification.date : ''
   try{
@@ -27,18 +26,28 @@ export const fetchNotifications = createAsyncThunk('notifications/fetchNotificat
 const notificationsSlice = createSlice({
   name: 'notifications',
   initialState:[],
-  reducers: {},
+  reducers: {
+    allNotificationsRead(state,action){
+      state.forEach((notification)=>{
+      notification.read=true
+      })
+    }
+  },
   extraReducers(builder) {
     builder.addCase(fetchNotifications.fulfilled,(state,action)=>{
   // without this condition it add more and more notifications
     if(state.length===0){
       state.push(...action.payload)
      state.sort((a,b)=>b.date.localeCompare(a.date)) 
+     state.forEach((notification)=>{
+notification.isNew=!notification.read
+     })
     }
     })
   }
 })
 
+export const {allNotificationsRead} = notificationsSlice.actions
 export default notificationsSlice.reducer
 export const selectAllNotifications = state =>state.notifications
 

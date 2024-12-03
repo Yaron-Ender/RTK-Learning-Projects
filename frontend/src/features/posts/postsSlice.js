@@ -1,4 +1,4 @@
-import {createSlice, nanoid, createAsyncThunk} from '@reduxjs/toolkit'
+import {createSlice, nanoid, createAsyncThunk, createSelector,createEntityAdapter} from '@reduxjs/toolkit'
 import axios from 'axios'
 
 const initialState ={
@@ -62,16 +62,16 @@ const postsSlice = createSlice({
 }
     }
 }
-        },
-        postUpdated(state, action) {
-           const {id, title, content} = action.payload
-           const existingPost= state.posts.find(id=>id==id)
-            // const existingPost = state.entities[id]
-            if(existingPost) {
-                existingPost.title = title
-                existingPost.content = content
-            }
+},
+    postUpdated(state, action) {
+        const {id, title, content} = action.payload
+        const existingPost= state.posts.find(id=>id==id)
+        // const existingPost = state.entities[id]
+        if(existingPost) {
+            existingPost.title = title
+            existingPost.content = content
         }
+    }
     },
     extraReducers(builder) {
         builder
@@ -91,7 +91,7 @@ const newPost = {...post}
     rocket: 0,
     eyes: 0
 }
-//the body property is come from the placeholder API and i changed it with content property
+//the body property is come from the placeholder API and i changed it to content property
 delete post.body
 return newPost
 })    
@@ -135,3 +135,9 @@ export const {postAdded, postUpdated, reactionAdded} = postsSlice.actions
 export default postsSlice.reducer;
 export const selectAllPosts = state => state.posts.posts;
 export const selectPostsById = (state , postId) => state.posts.posts.find(post=>post.id===postId) 
+export const selectPostsByUser = createSelector(
+    [selectAllPosts, (state, userId) => userId],
+    (posts, userId) => {
+       return posts.filter(post => post.user === userId)
+    }
+) 

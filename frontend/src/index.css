@@ -261,7 +261,7 @@ button.reaction-button {
 /* Notifications list */
 
 .notification {
-  border: 1px solid #eee;
+  border: 10px solid #eee;
   padding: 0.5rem;
 }
 

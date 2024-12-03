@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import React, { useEffect,useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { AddPostForm } from './AddPostForm'
 import { PostAuthor } from './PostAuthor'
@@ -25,8 +25,8 @@ return (
 </article>
 )
 }
-
 function PostsLists() {
+  PostExcerpts =  React.memo(PostExcerpts)
 
 const posts= useSelector(selectAllPosts)
 const dispatch = useDispatch()

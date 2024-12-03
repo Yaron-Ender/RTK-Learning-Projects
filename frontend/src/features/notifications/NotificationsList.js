@@ -4,7 +4,10 @@ import { formatDistanceToNow, parseISO } from 'date-fns'
 
 import { selectAllUsers } from '../users/usersSlice'
 
-import {fetchNotifications, selectAllNotifications} from './notificationsSlice'
+import {fetchNotifications, selectAllNotifications,allNotificationsRead} from './notificationsSlice'
+
+import classnames from 'classnames'
+
 
 export const NotificationsList = () => {
     const dispatch = useDispatch()
@@ -15,9 +18,9 @@ export const NotificationsList = () => {
     dispatch(fetchNotifications())
 },[])
 const users = useSelector(selectAllUsers)
-    // useLayoutEffect(() => {
-    //     dispatch(allNotificationsRead())
-    // })
+    useLayoutEffect(() => {
+        dispatch(allNotificationsRead())
+    })
 
     const renderedNotifications = notifications.map(notification => {
         const date = parseISO(notification.date)
@@ -28,12 +31,12 @@ const users = useSelector(selectAllUsers)
 
         // const metadata = notificationsMetadata[notification.id]
 
-        // const notificationClassname = classnames('notification', {
-        //     new: metadata.isNew
-        // })
+        const notificationClassname = classnames('notification', {
+            new: notification.isNew
+        })
         
-        return (
-    <div key={notification.id} className='notification'>
+    return (
+    <div key={notification.id} className={notificationClassname}>
     <div>
     <b>{user.name}</b><p>
     {notification.title}
